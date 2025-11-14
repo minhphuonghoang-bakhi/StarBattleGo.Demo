@@ -153,5 +153,23 @@ public class StarBattleGame {
 //private StarBattleBoard board; //default value
 //inside constructor: this.board = board (link the board in constructor param to the board in field
 //in main method: StarBattleBoard boardInput = StarBattleBoard.fromFile("puzzle/puzzle.txt");
-    // a board with full initialized input values
+// a board with full initialized input values
 // linked together and the "private StarBattleBoard board;" in the class receives the values
+
+//public class Example() {
+    //data fields
+    //private int age; // default 0
+    //private String name; // default null
+
+    //public Example(int age, String name) {
+        //this.age = age;    //passing the age in parameter to the age in data field
+        //this.name = name;
+    //}
+    //public main ... () {
+    //Example obj = new Example(5, "Alice"); }
+// constructor is like a bridge to transport data between an object and its data field
+// as each object can have different data ,ex: new Example(5, "Alice") or new Example(7, "Bob")
+// but just has the properties which is declared in data field which are age and name
+// each time with another object, data fields need to be changed (thru constructor)
+    //with obj 1: (5, "Alice") => constructor (this.) => data field from age = 0, name = null becomes age = 5, name = Alice
+    //with obj 1: (7, "Bob") => constructor (this.) => data field from age = 0, name = null becomes age = 7, name = Bob
