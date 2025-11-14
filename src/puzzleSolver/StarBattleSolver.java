@@ -219,4 +219,5 @@ public class StarBattleSolver {
     }
 }
 
-
+//i have space in my input file
+//like instead of AAABBBCC i write it like A A B B C C and the file can be still printed out but input cant be implemented and solved
