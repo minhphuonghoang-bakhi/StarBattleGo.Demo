@@ -100,7 +100,7 @@ public class StarBattleSolver {
         for (int j = 0; j < size; j++)
             if (grid[row][j] == '*')
                 rowStars++;
-        if (rowStars >= starsPerRow) {
+        if (rowStars >= starsPerRow) {      //larger or equal not larger
             return false;
         }
 
@@ -218,6 +218,5 @@ public class StarBattleSolver {
         }
     }
 }
-
 
 
