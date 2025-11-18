@@ -18,7 +18,7 @@ public class StarBattleSolver {
 
     public StarBattleSolver(StarBattleBoard board) {      //Constructor
         this.board = board;
-        this.size = board.getSize();  //declare this so that do not need to declare in each method (scope of ganz class)
+        this.size = board.getSize();  //size is private in class Board, when class Solver wants to read: using getter method
         this.grid = board.getBoard();
         this.regions = board.getRegions();
         this.starsPerRow = board.getStarsPerRow();

@@ -85,6 +85,9 @@ public class StarBattleBoard {
 
     // used for the Deliverable 2
     // getter setter method
+    // getter method: size is in this class private (only can be used in this class), so if we want to read it in other classes
+    // for ex: board.size it will be error, so we need a get method for other classes to access this private variable
+    // board.getSize() will be correct
     public int getSize() { return size; }
     public int getStarsPerRow() { return starsPerRow; }
     public char[][] getRegions() { return regions; }
