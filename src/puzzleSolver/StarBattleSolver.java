@@ -143,7 +143,22 @@ public class StarBattleSolver {
         //r= 'A' -> regionSizes[A-A=0] = 4
         //r= 'B' -> regionSizes[B-A=1] = 7
 
-        return solveRegion(regionOrder, regionCells, 0);
+        /** class RegionComparator implements Comparator<Character> {  //using interface
+         private int[] regionSizes;
+
+         public RegionComparator(int[] regionSizes) {
+            this.regionSizes = regionSizes;
+         }
+
+         public int compare(Character r1, Character r2) {
+            return regionSizes[r1 - 'A'] - regionSizes[r2 - 'A'];
+         }
+         }
+
+         regionOrder.sort(new RegionComparator(regionSizes));
+        **/
+
+         return solveRegion(regionOrder, regionCells, 0);
     }
 
     // recursively solve regions by regions
@@ -205,12 +220,23 @@ public class StarBattleSolver {
             System.out.println();
         }
     }
+    // Print the regions
+    public void printRegions() {
+        System.out.println("Regions:");
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                System.out.print(regions[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
 
     public static void main (String[] args) throws IOException {
         StarBattleBoard board = StarBattleBoard.fromFile("puzzle/puzzle.txt");
         StarBattleSolver solver = new StarBattleSolver(board);
 
         if (solver.solve() == true) {
+            solver.printRegions();
             System.out.println("Solution found:");
             solver.printBoard();
         } else {
