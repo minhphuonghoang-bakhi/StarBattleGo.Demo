@@ -143,18 +143,20 @@ public class StarBattleSolver {
         //r= 'A' -> regionSizes[A-A=0] = 4
         //r= 'B' -> regionSizes[B-A=1] = 7
 
-        /** class RegionComparator implements Comparator<Character> {  //using interface
+        /** class RegionComparator implements Comparator<Character> {  //using Comparator interface
+         * class MyComparator implements Comparator<Type> {
+         *            public int compare(Type obj1, Type obj2) {
+         *                // comparison logic
+         *       }
+         * }
          private int[] regionSizes;
-
          public RegionComparator(int[] regionSizes) {
             this.regionSizes = regionSizes;
          }
-
          public int compare(Character r1, Character r2) {
             return regionSizes[r1 - 'A'] - regionSizes[r2 - 'A'];
          }
          }
-
          regionOrder.sort(new RegionComparator(regionSizes));
         **/
 
