@@ -220,16 +220,51 @@ public class StarBattleSolver {
             System.out.println();
         }
     }
-    // Print the regions
+
+    //add color for each region
+    private static final String[] ansiColors = {
+            "\u001B[31m", // red
+            "\u001B[32m", // green
+            "\u001B[33m", // yellow
+            "\u001B[34m", // blue
+            "\u001B[35m", // magenta
+            "\u001B[36m", // cyan
+            "\u001B[92m", // bright green
+            "\u001B[93m", // bright yellow
+            "\u001B[94m", // bright blue
+            "\u001B[95m", // bright magenta
+            "\u001B[96m"  // bright cyan
+    };
+
+    private static final String ansiReset = "\u001B[0m";
+    // still need reset although already mapped color to each letter char
+    //otherwise will the zB index or the "dot" boards below also be colored lmao
+
+    // maps region letters A–Z to colors
+    private String getRegionColor(char region) {
+        int index = region - 'A';
+        return ansiColors[index % ansiColors.length];  // idxC = 3 % 12 = 3 = yellow
+    }
+
+    // Print the regions with colors
     public void printRegions() {
         System.out.println("Regions:");
         for (int i = 0; i < size; i++) {
+            if (i == 0) System.out.print("   " + i);    //print index so that users know
+            else System.out.print(" " + i);
+        }
+        System.out.println();
+
+        for (int i = 0; i < size; i++) {
+            System.out.print(" " + i + " ");
             for (int j = 0; j < size; j++) {
-                System.out.print(regions[i][j] + " ");
+                char region = regions[i][j];
+                System.out.print(getRegionColor(region) + region + ansiReset + " ");
             }
             System.out.println();
         }
     }
+
 
     public static void main (String[] args) throws IOException {
         StarBattleBoard board = StarBattleBoard.fromFile("puzzle/puzzle.txt");

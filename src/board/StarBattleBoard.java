@@ -51,9 +51,9 @@ public class StarBattleBoard {
                                                                      //and to call out the constructor
         //fill in the array regions with the input from file
         for (int i = 0; i < size; i++) {
-            String line = br.readLine().trim();
+            String line = br.readLine().trim(); //i = 0, readLine - line i = 0, trim(): line = A A B B C
             for (int j = 0; j < size; j++) {
-                sb.regions[i][j] = line.charAt(j);    // example: ABBBA, A = sb.regions[0][0], B = sb.regions[0][1]
+                sb.regions[i][j] = line.charAt(j);    // example: line = A B B B A, A = sb.regions[0][0], B = sb.regions[0][1]
             }
         }
 
@@ -76,6 +76,12 @@ public class StarBattleBoard {
     public void printRegions() {
         System.out.println("Regions:");
         for (int i = 0; i < size; i++) {
+            if (i == 0) System.out.print("   " + i );
+            else System.out.print(" " + i );
+        }
+        System.out.println();
+        for (int i = 0; i < size; i++) {
+            System.out.print(" " + i + " ");
             for (int j = 0; j < size; j++) {
                 System.out.print(regions[i][j] + " ");
             }
