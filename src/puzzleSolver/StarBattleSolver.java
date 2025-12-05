@@ -50,13 +50,42 @@ public class StarBattleSolver {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 // hashmap: <key, value>
-                map.putIfAbsent(regions[i][j], new ArrayList<>());  //arraylist: resizeable array
+                map.putIfAbsent(regions[i][j], new ArrayList<>());  //arraylist: resizeable array  //must use putIfAbsent else put 2 A or 2 B
                 // which region has which points: regionCells = <A → [(0,0), (0,1), (1,0), (1,1)]...>
                 map.get(regions[i][j]).add(new int[]{i, j});
             }
         }
         return map;
     }
+
+    private int computeCellConstraint(int row, int col) {
+        int constraint = 0;
+
+        // Count stars in the row
+        for (int j = 0; j < size; j++)
+            if (grid[row][j] == '*') constraint++;
+
+        // Count stars in the column
+        for (int i = 0; i < size; i++)
+            if (grid[i][col] == '*') constraint++;
+
+        // Count stars in the region
+        char region = regions[row][col];
+        for (int i = 0; i < size; i++)
+            for (int j = 0; j < size; j++)
+                if (regions[i][j] == region && grid[i][j] == '*') constraint++;
+
+        // Count adjacency (8 neighbors)
+        for (int i = -1; i <= 1; i++)
+            for (int j = -1; j <= 1; j++) {
+                int r = row + i, c = col + j;
+                if (r >= 0 && r < size && c >= 0 && c < size && grid[r][c] == '*') {
+                    constraint += 2; // adjacency is more restrictive
+                }
+            }
+        return constraint;
+    }
+
 
     //before i have used wrapper method in previous class so that i dont need to define again isValidMove() in this class
     //but the isValidMove in previous class is a version allowing user to enter them solution
@@ -190,10 +219,27 @@ public class StarBattleSolver {
     private boolean placeStarsInRegion(ArrayList<int[]> cells, int start, int starPlaced,
                                        ArrayList<Character> regionOrder, Map<Character,
                     ArrayList<int[]>> regionCells, int regionsidx) {
-        for (int i = start; i < cells.size(); i++) {   //A → [(0,0), (0,1), (1,0), (1,1)]
-            //cells.get(1) = (0,1)
-            int r = cells.get(i)[0]; // 0
-            int c = cells.get(i)[1];  // 1
+
+        if (starPlaced == starsPerRow) {
+            return solveRegion(regionOrder, regionCells, regionsidx + 1);
+            //move to next region if place enough required stars in a region
+        }
+
+        // dynamically compute available cells
+        ArrayList<int[]> availableCells = new ArrayList<>();
+        for (int[] cell : cells)
+            if (grid[cell[0]][cell[1]] != '*')  //consider just empty cell (in region A is already one star placed at (0,1), not consider this star anymore
+                availableCells.add(cell);
+
+        // sort by current constraint
+        availableCells.sort(Comparator.comparingInt(cell -> computeCellConstraint(cell[0], cell[1])));
+
+
+
+        for (int[] cell : availableCells) {   //A → cells = [(0,0), (0,1), (1,0), (1,1)]
+            //cell = (0,1)
+            int r = cell[0]; // 0
+            int c = cell[1];  // 1
             if (isValidMove(r, c)) {
                 //cannot call a private method of another class directly
                 //cannot call a method of another class without a reference to the object of this class
@@ -202,16 +248,14 @@ public class StarBattleSolver {
                 //recursively call to check all the points in that region
                 //(call with i + 2, inside i + 2 call i + 3; inside i+3, call i+4)
                 //i++ automatically, if cannot place the star at i + 1, i + 2, i + 3, i + 4, remove star at i
+                int i = cells.indexOf(cell);
                 if (placeStarsInRegion(cells, i + 1, starPlaced + 1, regionOrder, regionCells, regionsidx)) {
                     return true;
                 }
                 removeStar(r, c); //backtrack
             }
         }
-        if (starPlaced == starsPerRow) {
-            return solveRegion(regionOrder, regionCells, regionsidx + 1);
-            //move to next region if place enough required stars in a region
-        }
+
         return false; //no stars placed in this region
     }
 
