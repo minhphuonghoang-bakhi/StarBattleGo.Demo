@@ -281,12 +281,30 @@ public class StarBattleSolver {
     }
 
     //print board
+    // Print solution board with region colors
     public void printBoard() {
+        // Column indices
+        System.out.print("   ");
+        for (int j = 0; j < size; j++) {
+            System.out.print(j + " ");
+        }
+        System.out.println();
+
         for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) System.out.print(grid[i][j] + " ");
+            // Row index
+            System.out.print(" " + i + " ");
+
+            for (int j = 0; j < size; j++) {
+                char region = regions[i][j];
+                char cell = grid[i][j]; // '*' or '.'
+
+                String color = getRegionColor(region);
+                System.out.print(color + cell + ansiReset + " ");
+            }
             System.out.println();
         }
     }
+
 
     //add color for each region
     private static final String[] ansiColors = {
